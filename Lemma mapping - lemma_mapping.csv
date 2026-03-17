@@ -1,0 +1,25 @@
+Type,Language,Lemma 1,Lemma 2
+BOL,Turkish,ol,
+BOL,Ottoman Turkish,ol,
+BOL,Old Turkish,,
+BOL,Azerbaijani,ol,
+BOL,Uzbek,boʻl,bo'l
+BOL,Uyghur,بول,
+BOL,Kazakh,бол,
+BOL,Kyrgyz,бол,
+BOL,Tatar,бул,
+BOL,Yakut,буол,
+BOL,Turkish English,ol,
+BOL,Turkish German,ol,
+ER,Turkish,i,y
+ER,Ottoman Turkish,i,y
+ER,Old Turkish,i,y
+ER,Azerbaijani,i,
+ER,Uzbek,i,
+ER,Uyghur,ئى,
+ER,Kazakh,е,
+ER,Kyrgyz,э,
+ER,Tatar,и,
+ER,Yakut,э,
+ER,Turkish English,i,
+ER,Turkish German,i,

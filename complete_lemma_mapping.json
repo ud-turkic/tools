@@ -1,0 +1,86 @@
+{
+  "BOL": {
+    "description": "Copula 'to be' equivalent across Turkic languages",
+    "languages": {
+      "Turkish": [
+        "ol"
+      ],
+      "Ottoman_Turkish": [
+        "ol"
+      ],
+      "Old_Turkish": [],
+      "Azerbaijani": [
+        "ol"
+      ],
+      "Uzbek": [
+        "boʻl",
+        "bo'l"
+      ],
+      "Uyghur": [
+        "بول"
+      ],
+      "Kazakh": [
+        "бол"
+      ],
+      "Kyrgyz": [
+        "бол"
+      ],
+      "Tatar": [
+        "бул"
+      ],
+      "Yakut": [
+        "буол"
+      ],
+      "Turkish_English": [
+        "ol"
+      ],
+      "Turkish_German": [
+        "ol"
+      ]
+    }
+  },
+  "ER": {
+    "description": "Auxiliary 'i/er' copula across Turkic languages",
+    "languages": {
+      "Turkish": [
+        "i",
+        "y"
+      ],
+      "Ottoman_Turkish": [
+        "i",
+        "y"
+      ],
+      "Old_Turkish": [
+        "i",
+        "y"
+      ],
+      "Azerbaijani": [
+        "i"
+      ],
+      "Uzbek": [
+        "i"
+      ],
+      "Uyghur": [
+        "ئى"
+      ],
+      "Kazakh": [
+        "е"
+      ],
+      "Kyrgyz": [
+        "э"
+      ],
+      "Tatar": [
+        "и"
+      ],
+      "Yakut": [
+        "э"
+      ],
+      "Turkish_English": [
+        "i"
+      ],
+      "Turkish_German": [
+        "i"
+      ]
+    }
+  }
+}
