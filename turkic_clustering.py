@@ -36,7 +36,7 @@ import argparse
 import json
 from pathlib import Path
 from collections import defaultdict, Counter
-from conllu.conllu import Treebank
+from udsearch import load_treebank
 
 # Define all Turkic languages in UD based on the lang_spec_docs.html
 TURKIC_LANGUAGES = {
@@ -88,29 +88,33 @@ def load_lemma_mapping(mapping_file):
     with open(mapping_file, 'r', encoding='utf-8') as f:
         return json.load(f)
 
-def find_lemma_matches(treebank, lemmas):
+def find_lemma_matches(sentences, lemmas):
     """
     Find all tokens with any of the specified lemmas that depend on other tokens.
-    
+
     Args:
-        treebank: Treebank object containing parsed sentences
+        sentences: List of Sentence objects (from udsearch)
         lemmas: List of lemmas to search for (or single lemma string)
-        
+
     Returns:
-        List of tuples (dependent_token, head_token) where dependent_token has one of the 
+        List of tuples (dependent_token, head_token) where dependent_token has one of the
         specified lemmas and head_token is what it depends on
     """
     # Ensure lemmas is a list
     if isinstance(lemmas, str):
         lemmas = [lemmas]
-    
+
     matches = []
-    
-    for sentence in treebank.sentences.values():
-        for token in sentence.tokens.values():
-            if token.lemma in lemmas and token.head:
-                matches.append((token, token.head))
-    
+
+    for sentence in sentences:
+        # Build id-to-token map for head resolution
+        token_by_id = {t.id: t for t in sentence.tokens}
+        for token in sentence.tokens:
+            if token.lemma in lemmas and token.head and token.head != '0':
+                head_token = token_by_id.get(token.head)
+                if head_token:
+                    matches.append((token, head_token))
+
     return matches
 
 def perform_clustering(matches):
@@ -220,14 +224,15 @@ def process_turkic_languages(lemma_mapping, output_file=None, version=None, verb
                     if verbose:
                         print(f"  Loading {treebank_name}...")
                     
-                    # Load treebank
-                    treebank = Treebank(name=treebank_name, published=True, version=version)
-                    matches = find_lemma_matches(treebank, language_lemmas)
+                    # Load treebank (strip "UD_" prefix for udsearch convention)
+                    tb_name = treebank_name.removeprefix("UD_")
+                    sentences = load_treebank(tb_name, quiet=not verbose)
+                    matches = find_lemma_matches(sentences, language_lemmas)
                     clustering_results = perform_clustering(matches)
-                    
+
                     # Store treebank results
                     language_results['treebanks'][treebank_name] = {
-                        'sentences_loaded': len(treebank.sentences),
+                        'sentences_loaded': len(sentences),
                         'total_matches': clustering_results['total_matches'],
                         'upos_clusters': dict(clustering_results['upos_clusters'].most_common()),
                         'deprel_clusters': dict(clustering_results['deprel_clusters'].most_common()),
@@ -239,7 +244,7 @@ def process_turkic_languages(lemma_mapping, output_file=None, version=None, verb
                     language_results['successful_treebanks'] += 1
                     overarching_results['summary']['total_treebanks_successful'] += 1
                     
-                    print(f"    {treebank_name}: {len(treebank.sentences)} sentences, {clustering_results['total_matches']} matches")
+                    print(f"    {treebank_name}: {len(sentences)} sentences, {clustering_results['total_matches']} matches")
                     
                 except Exception as e:
                     print(f"    {treebank_name}: ERROR - {e}")
