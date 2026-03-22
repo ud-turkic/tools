@@ -1,44 +1,46 @@
 # UD Turkic Tools
 
-Shared tooling for the [UD Turkic group](https://github.com/ud-turkic): cross-language clustering, annotation strategy tables, and treebank discovery.
+Shared tooling for the [UD Turkic group](https://github.com/ud-turkic): cross-language clustering, annotation strategy tables, treebank discovery, and general UD utilities.
 
-## Scripts
+## clustering/
 
-### `turkic_clustering.py`
-
-Cross-language lemma clustering across all Turkic UD treebanks. Maps overarching concepts (e.g., "BOL" for copula) to language-specific lemmas and generates UPOS × deprel distributions.
+Cross-language lemma clustering across all Turkic UD treebanks. Maps overarching concepts (e.g., "BOL" for copula) to language-specific lemmas and generates UPOS × deprel distributions. See [docs/ud-query.md](docs/ud-query.md) for the query approach.
 
 ```bash
 # List all Turkic languages and treebanks
-python turkic_clustering.py --list-languages
+python clustering/turkic_clustering.py --list-languages
 
 # Process all Turkic languages with lemma mapping
-python turkic_clustering.py --lemma-mapping complete_lemma_mapping.json --output results.json
+python clustering/turkic_clustering.py --lemma-mapping clustering/data/complete_lemma_mapping.json --output results.json
+
+# Generate annotation strategy tables from results
+python clustering/generate_annotation_tables.py results.json
+
+# Discover all UD Turkic repos via GitHub CLI
+python clustering/get_ud_repos_with_gh.py --output ud_repos.json
 ```
 
-### `generate_annotation_tables.py`
+**Data:**
 
-Generate annotation strategy comparison tables from clustering results (e.g., how different treebanks annotate copulas).
+- `clustering/data/complete_lemma_mapping.json` — lemma mappings across Turkic languages
+- `clustering/data/ud_languages.json` — language-to-treebank mapping
+- `clustering/data/lemma_mapping.csv` — tabular lemma mapping
 
-### `generate_filtered_report.py`
+## ud/
 
-Generate filtered reports from clustering results.
+General UD utilities (not Turkic-specific), moved from [ud-turkic/parallel](https://github.com/ud-turkic/parallel).
 
-### `get_ud_repos_with_gh.py`
-
-Discover all UD repositories and generate language-to-treebank mappings using GitHub CLI.
+- `compare_treebanks.py` — compare annotations between two CoNLL-U files with the same sentence IDs
+- `count_tokens.py` — token/POS/feature statistics for CoNLL-U files
+- `fix_spaceafters.py` — fill in missing `SpaceAfter=No` from UD validator error logs
 
 ```bash
-python get_ud_repos_with_gh.py --output ud_repos.json
+python ud/compare_treebanks.py treebank1.conllu treebank2.conllu
+python ud/count_tokens.py corpus.conllu
+python ud/fix_spaceafters.py error_log.txt treebank.conllu
 ```
-
-## Data
-
-- `complete_lemma_mapping.json` — Lemma mappings across Turkic languages
-- `ud_languages.json` — Language-to-treebank mapping
-- `Lemma mapping - lemma_mapping.csv` — Tabular lemma mapping
 
 ## See also
 
-- [ud-tools](https://gitlab.com/furkan4829/tools/ud-tools) — General UD tooling (`udvalidate`, `udsearch`, `udeval`)
-- [ud-turkic/parallel](https://github.com/ud-turkic/parallel) — Parallel treebank tools
+- [ud-tools](https://gitlab.com/furkan4829/tools/ud-tools) — general UD tooling (`udvalidate`, `udsearch`, `udeval`)
+- [ud-turkic/parallel](https://github.com/ud-turkic/parallel) — parallel treebank tools
