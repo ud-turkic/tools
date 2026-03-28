@@ -33,11 +33,21 @@ General UD utilities (not Turkic-specific), moved from [ud-turkic/parallel](http
 - `compare_treebanks.py` — compare annotations between two CoNLL-U files with the same sentence IDs
 - `count_tokens.py` — token/POS/feature statistics for CoNLL-U files
 - `fix_spaceafters.py` — fill in missing `SpaceAfter=No` from UD validator error logs
+- `generate_treebank_stats.py` — generate statistics tables (LaTeX/Markdown/JSON) for all UD Turkic treebanks
 
 ```bash
 python ud/compare_treebanks.py treebank1.conllu treebank2.conllu
 python ud/count_tokens.py corpus.conllu
 python ud/fix_spaceafters.py error_log.txt treebank.conllu
+
+# Generate treebank stats table from pre-cloned repos
+python ud/generate_treebank_stats.py --local-dir /tmp/ud-impact --format both
+
+# LaTeX only, with UD version in caption
+python ud/generate_treebank_stats.py --local-dir /tmp/ud-impact --format latex --ud-version 2.15 --output stats.tex
+
+# JSON output for downstream processing
+python ud/generate_treebank_stats.py --format json --output stats.json
 ```
 
 ## See also
