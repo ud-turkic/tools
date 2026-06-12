@@ -52,5 +52,5 @@ python ud/generate_treebank_stats.py --format json --output stats.json
 
 ## See also
 
-- [ud-tools](https://gitlab.com/furkan4829/tools/ud-tools) — general UD tooling (`udvalidate`, `udsearch`, `udeval`)
+- [ud-tools](https://gitlab.com/frutteto/tools/ud-tools) — general UD tooling (`udvalidate`, `udsearch`, `udeval`)
 - [ud-turkic/parallel](https://github.com/ud-turkic/parallel) — parallel treebank tools
